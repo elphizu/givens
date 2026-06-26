@@ -13,29 +13,19 @@ const seeds = [
   {
     id: 'pst_seed001',
     ciphertext: 'U2FsdGVkX1+vupppZqHjKgExampleCipherText1',
-    nonce: 'abc123nonce',
-    algorithm: 'AES-256-GCM',
     expiresAt: new Date(Date.now() + 3600_000),
-    burnAfterRead: false,
-    sizeBytes: 42,
   },
   {
     id: 'pst_seed002',
     ciphertext: 'U2FsdGVkX2AnotherExampleCipherTextHere222',
-    nonce: 'def456nonce',
-    algorithm: 'AES-256-GCM',
+    burnToken: 'burn_token_abc',
+    burnKey: 'burn_key_123',
     expiresAt: new Date(Date.now() + 86400_000),
-    burnAfterRead: true,
-    sizeBytes: 44,
   },
   {
     id: 'pst_seed003',
     ciphertext: 'Short',
-    nonce: 'ghi789nonce',
-    algorithm: 'AES-256-GCM',
     expiresAt: new Date(Date.now() + 604800_000),
-    burnAfterRead: false,
-    sizeBytes: 5,
   },
 ];
 

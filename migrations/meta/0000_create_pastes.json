@@ -1,5 +1,5 @@
 {
-  "id": "19fd5b0e-f186-495e-b8ed-c9599ace57bc",
+  "id": "486c494c-a58e-4568-b8c2-e578e59a2b45",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -20,18 +20,17 @@
           "primaryKey": false,
           "notNull": true
         },
-        "nonce": {
-          "name": "nonce",
+        "burn_token": {
+          "name": "burn_token",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "algorithm": {
-          "name": "algorithm",
+        "burn_key": {
+          "name": "burn_key",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'AES-256-GCM'"
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -43,19 +42,6 @@
         "expires_at": {
           "name": "expires_at",
           "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "burn_after_read": {
-          "name": "burn_after_read",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
-        "size_bytes": {
-          "name": "size_bytes",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }
