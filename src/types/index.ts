@@ -2,60 +2,60 @@ import type { ComponentType, SVGProps } from 'react';
 
 import { type LanguageSupport } from '@codemirror/language';
 
-export type CopyFieldProps = {
+export interface CopyFieldProps {
   label: string;
   value: string;
   icon?: React.ElementType;
-};
+}
 
-export type ShareDialogProps = {
+export interface ShareDialogProps {
   open: boolean;
   onClose?: () => void;
   shareUrl: string;
   deleteUrl: string;
-};
+}
 
-export type FaqItem = {
+export interface FaqItem {
   question: string;
   answer: string;
-};
+}
 
-export type StepItem = {
+export interface StepItem {
   step: number;
   title: string;
   desc: string;
-};
+}
 
-export type ModeItem = {
+export interface ModeItem {
   name: 'classical' | 'quantum';
   crypto: string;
   desc: string;
-};
+}
 
-export type FeatureItem = {
+export interface FeatureItem {
   title: string;
   desc: string;
-};
+}
 
-export type NavItem = {
+export interface NavItem {
   label: string;
   href: string;
-};
+}
 
-export type SocialLinkItem = {
+export interface SocialLinkItem {
   label: string;
   href: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
-};
+}
 
 export type ExpirationValue = 300 | 3600 | 86400 | 604800 | 2592000 | 0;
 
-export type ExpirationItem = {
+export interface ExpirationItem {
   label: string;
   value: ExpirationValue;
-};
+}
 
-export type LanguageItem = {
+export interface LanguageItem {
   label: string;
   value: LanguageSupport | null;
-};
+}
