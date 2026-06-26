@@ -24,14 +24,18 @@ export function CopyField({ label, value, icon: Icon }: CopyFieldProps) {
         {label}
       </label>
 
-      <div className="flex items-center gap-2 rounded-lg border bg-muted/80 px-3 py-1">
-        {Icon && <Icon className="h-4 w-4" />}
-        <input value={value} readOnly className="min-w-0 flex-1 text-sm outline-none" />
+      <div className="flex h-10 items-center gap-2 rounded-lg border bg-muted/80 px-3">
+        {Icon && <Icon className="h-4 w-4 shrink-0" />}
+        <input
+          value={value}
+          readOnly
+          className="h-8 w-0 min-w-0 flex-1 bg-transparent text-left font-mono text-xs text-foreground outline-none"
+        />
 
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-muted"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md hover:bg-muted"
           aria-label={`Copy ${label}`}
         >
           {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
