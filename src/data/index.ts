@@ -133,16 +133,3 @@ export const faqs: FaqItem[] = [
       'Planned. The decryption key will be wrapped with a password-derived key (PBKDF2). Not yet implemented.',
   },
 ];
-
-export type CopyFieldProps = {
-  label: string;
-  value: string;
-  icon?: React.ElementType;
-};
-
-export type ShareDialogProps = {
-  open: boolean;
-  onClose?: () => void;
-  shareUrl: string;
-  deleteUrl: string;
-};

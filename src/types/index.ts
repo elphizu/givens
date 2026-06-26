@@ -1,3 +1,7 @@
+import type { ComponentType, SVGProps } from 'react';
+
+import { type LanguageSupport } from '@codemirror/language';
+
 export type CopyFieldProps = {
   label: string;
   value: string;
@@ -10,8 +14,6 @@ export type ShareDialogProps = {
   shareUrl: string;
   deleteUrl: string;
 };
-
-import type { ComponentType, SVGProps } from 'react';
 
 export type FaqItem = {
   question: string;
@@ -51,4 +53,9 @@ export type ExpirationValue = 300 | 3600 | 86400 | 604800 | 2592000 | 0;
 export type ExpirationItem = {
   label: string;
   value: ExpirationValue;
+};
+
+export type LanguageItem = {
+  label: string;
+  value: LanguageSupport | null;
 };
