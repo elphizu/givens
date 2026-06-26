@@ -4,7 +4,7 @@ import postgres from 'postgres';
 
 import { pastes } from './src/lib/db/schema';
 
-config({ path: `${process.cwd()}/.env.local` });
+config();
 
 const client = postgres(process.env.DATABASE_URL!);
 const db = drizzle(client);
