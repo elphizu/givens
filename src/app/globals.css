@@ -95,6 +95,10 @@
   --sidebar-accent-foreground: oklch(0.09 0 0);
   --sidebar-border: oklch(0.91 0 0);
   --sidebar-ring: oklch(0.64 0 0);
+
+  --editor-background: var(--card);
+  --editor-foreground: var(--card-foreground);
+  --editor-muted: var(--muted-foreground);
 }
 
 .dark {
@@ -138,6 +142,10 @@
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.72 0 0);
+
+  --editor-background: #1e1e2e;
+  --editor-foreground: #cdd6f4;
+  --editor-muted: #a6adc8;
 }
 
 @layer base {
