@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
+import { inArray } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
@@ -55,6 +56,9 @@ async function seed() {
     }),
   );
 
+  const seedIds = rows.map((row) => row.id);
+
+  await db.delete(pastes).where(inArray(pastes.id, seedIds));
   await db.insert(pastes).values(rows.map(({ key: _key, ...row }) => row));
   console.warn(`Seeded ${seeds.length} pastes`);
 
