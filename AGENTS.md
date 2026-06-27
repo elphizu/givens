@@ -1,5 +1,27 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+## Naming
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+- Components: `PascalCase`.
+- Hooks: `useSomething`.
+- Booleans: truthy names like `isLoading`, `hasError`, `canEdit`.
+- Event props: `onSomething`.
+- Local handlers: `handleSomething`.
+- Avoid vague names like `data`, `item`, `thing`, `helper`, `utils`, `handleData`, `processStuff`.
+
+## Imports
+
+- Use `import type` for types.
+- Remove unused imports.
+- Prefer absolute imports for shared modules.
+- Prefer relative imports inside the same feature.
+- Avoid circular imports.
+
+## Errors
+
+- Do not swallow errors.
+- Log useful context when handling errors.
+- Rethrow errors unless the caller can safely continue.
+
+## Before finishing
+
+- Run formatter/linter when available.
+- Mention anything not verified.
