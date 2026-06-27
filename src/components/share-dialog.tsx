@@ -1,13 +1,16 @@
 'use client';
 
-import * as React from 'react';
-
 import { LinkIcon, Trash2 } from 'lucide-react';
 
 import { CopyField } from '@/components/copyfield';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
-import { type ShareDialogProps } from '@/types';
+interface ShareDialogProps {
+  open: boolean;
+  onClose?: () => void;
+  shareUrl: string;
+  deleteUrl: string;
+}
 
 const patternDots = Array.from({ length: 520 }, (_, i) => {
   const cols = 40;
@@ -25,42 +28,18 @@ const patternDots = Array.from({ length: 520 }, (_, i) => {
   };
 }).filter((dot): dot is { id: number; left: string; top: string; opacity: number } => Boolean(dot));
 
+const cowSayLines = [
+  ' ___________________',
+  '< Copy link, human! >',
+  ' -------------------',
+  '        \\   ^__^',
+  '         \\  (oo)\\_______',
+  '            (__)\\       )\\/\\',
+  '                ||----w |',
+  '                ||     ||',
+];
+
 export function ShareDialog({ open, onClose, shareUrl, deleteUrl }: ShareDialogProps) {
-  const renderQrCode = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      if (!node) return;
-
-      import('qr-code-styling')
-        .then((QRModule) => {
-          const QRCodeStyling = QRModule.default;
-          if (!QRCodeStyling) {
-            console.error('[QR] QRCodeStyling default export missing');
-            return;
-          }
-
-          node.innerHTML = '';
-
-          const qrCode = new QRCodeStyling({
-            width: 200,
-            height: 200,
-            type: 'svg',
-            data: shareUrl,
-            dotsOptions: { color: 'var(--foreground)', type: 'dots' },
-            cornersSquareOptions: { color: 'var(--foreground)', type: 'extra-rounded' },
-            cornersDotOptions: { color: 'var(--foreground)', type: 'dot' },
-            backgroundOptions: { color: 'var(--background)' },
-            imageOptions: { crossOrigin: 'anonymous', margin: 10 },
-          });
-
-          qrCode.append(node);
-        })
-        .catch((error) => {
-          console.error('[QR] render failed:', error);
-        });
-    },
-    [shareUrl],
-  );
-
   return (
     <Dialog
       open={open}
@@ -70,11 +49,11 @@ export function ShareDialog({ open, onClose, shareUrl, deleteUrl }: ShareDialogP
     >
       <DialogContent
         overlayClassName="bg-black/60 backdrop-blur-sm"
-        className="w-full max-w-md gap-0 overflow-visible border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-md"
+        className="w-full max-w-[calc(100%-1.5rem)] gap-0 overflow-visible border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-md"
       >
         <DialogTitle className="sr-only">Share Dialog</DialogTitle>
 
-        <div className="rounded-2xl border-2 border-foreground/20 bg-background p-1">
+        <div className="w-full rounded-2xl border-2 border-foreground/20 bg-background p-1">
           <div className="relative w-full max-w-md overflow-hidden rounded-xl border border-border bg-card p-6 shadow-xl">
             <div
               className="pointer-events-none absolute inset-x-0 top-0 h-1/2"
@@ -100,7 +79,7 @@ export function ShareDialog({ open, onClose, shareUrl, deleteUrl }: ShareDialogP
 
             <div className="relative mb-4 flex items-center justify-between">
               <DialogTitle className="font-heading text-lg font-medium text-foreground">
-                Share via QR Code
+                Share paste
               </DialogTitle>
             </div>
 
@@ -120,27 +99,15 @@ export function ShareDialog({ open, onClose, shareUrl, deleteUrl }: ShareDialogP
                 />
               </svg>
 
-              <div className="relative p-1">
-                <div className="absolute -inset-0.75 border border-ring c" />
-
-                {[
-                  'top-[-9px] left-[-9px]',
-                  'top-[-9px] right-[-9px]',
-                  'bottom-[-9px] left-[-9px]',
-                  'bottom-[-9px] right-[-9px]',
-                ].map((pos) => (
-                  <div
-                    key={pos}
-                    className={`absolute size-3 rounded-[2px] border border-ring bg-background ${pos}`}
-                  />
-                ))}
-
-                <div ref={renderQrCode} className="relative z-10 h-50 w-50" />
+              <div className="relative">
+                <pre className="relative z-10 flex h-56 w-56 items-center justify-center overflow-hidden p-3 text-[13px] leading-tight text-foreground">
+                  {cowSayLines.join('\n')}
+                </pre>
               </div>
             </div>
 
             <p className="relative my-5 px-2 text-center text-xs text-muted-foreground">
-              Here is your unique code that will direct people to your content when scanned
+              The cow has spoken. Copy the share link below.
             </p>
 
             <CopyField label="Share URL" value={shareUrl} icon={LinkIcon} />
