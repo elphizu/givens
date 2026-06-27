@@ -43,7 +43,7 @@ export default function Home() {
           See it in action
         </h2>
         <p className="mt-2 text-center text-sm text-muted-foreground">
-          Real encryption running in your browser right now
+          A realistic look at what Nobins stores and what stays in the share link
         </p>
 
         <CryptoDemo />

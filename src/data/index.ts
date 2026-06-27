@@ -32,7 +32,7 @@ export const features = [
   },
   {
     title: 'Auto-expiration & burn-after-read',
-    desc: 'Set a TTL or self-destruct on read. Pastes vanish automatically — no traces left behind.',
+    desc: 'Set a TTL or self-destruct on read. Expired pastes are removed the next time they are opened.',
   },
   {
     title: 'No account required',
@@ -101,7 +101,7 @@ export const faqs = [
   {
     question: 'What is the difference between open and sealed mode?',
     answer:
-      'Open mode uses X25519 + HKDF-SHA-256 and creates shorter share links. Sealed mode combines ML-KEM-1024 with X25519, so the URL fragment is much larger and may be copy-only instead of QR-friendly.',
+      'Open mode uses X25519 + HKDF-SHA-256 and creates shorter share links. Sealed mode combines ML-KEM-1024 with X25519, so the URL fragment is much larger and best shared by copying the link.',
   },
   {
     question: 'What is burn-after-read?',
@@ -115,15 +115,15 @@ export const faqs = [
   {
     question: 'What happens when a paste expires?',
     answer:
-      'Expired pastes are deleted automatically. The server runs cleanup on read and via a scheduled job. Once deleted, the ciphertext is gone permanently.',
+      'Expired pastes are deleted the next time someone tries to open them. Once deleted, the ciphertext is gone permanently.',
   },
   {
     question: 'Is there a file size limit?',
-    answer: 'Current limit is 10MB per paste. Binary files are base64-encoded before encryption.',
+    answer:
+      'Nobins currently accepts text pastes only and does not enforce a custom app-level size limit. Your browser, network, and database still have practical limits.',
   },
   {
     question: 'Can I password-protect a paste?',
-    answer:
-      'Planned. The decryption key will be wrapped with a password-derived key (PBKDF2). Not yet implemented.',
+    answer: 'Not yet. Current paste links rely on the secret URL fragment as the decryption key.',
   },
 ];

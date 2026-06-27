@@ -47,7 +47,7 @@ export default function AboutPage() {
       <ul className="mt-4 flex flex-col gap-2 text-sm text-muted-foreground">
         <li>Server compromise: attacker gets ciphertext only, no keys.</li>
         <li>Network interception: TLS + client-side encryption, double protection.</li>
-        <li>Quantum attacks: optional ML-KEM-1024 layer resists Shor&apos;s algorithm.</li>
+        <li>Quantum attacks: sealed mode adds an ML-KEM-1024 post-quantum layer.</li>
         <li>
           Link sharing: anyone with the link can decrypt. Use burn-after-read for one-time access.
         </li>
