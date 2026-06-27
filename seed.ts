@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
+import { encryptPasteContent } from './src/lib/encryption';
 import { pastes } from './src/lib/db/schema';
 
 config();
@@ -11,27 +12,57 @@ const db = drizzle(client);
 
 const seeds = [
   {
-    id: 'pst_seed001',
-    ciphertext: 'U2FsdGVkX1+vupppZqHjKgExampleCipherText1',
-    expiresAt: new Date(Date.now() + 3600_000),
+    id: 'pst_demo_incident',
+    mode: 'open',
+    content:
+      'Incident note\n\nRotated the staging Stripe webhook secret at 2026-06-27 09:30 UTC.\nOwner: platform-oncall\nNext step: remove the old value from Vercel after deploy.',
+    expiresInMs: 3600_000,
   },
   {
-    id: 'pst_seed002',
-    ciphertext: 'U2FsdGVkX2AnotherExampleCipherTextHere222',
+    id: 'pst_demo_onboarding',
+    mode: 'open',
+    content:
+      'Onboarding handoff\n\nTemporary dashboard invite for Priya expires tonight.\nUse the /admin/invites page and rotate the invite after first login.',
     burnToken: 'burn_token_abc',
     burnKey: 'burn_key_123',
-    expiresAt: new Date(Date.now() + 86400_000),
+    expiresInMs: 86400_000,
   },
   {
-    id: 'pst_seed003',
-    ciphertext: 'Short',
-    expiresAt: new Date(Date.now() + 604800_000),
+    id: 'pst_demo_recovery',
+    mode: 'sealed',
+    content:
+      'Recovery note\n\nStore the offline recovery phrase in the safe deposit envelope.\nDo not paste production credentials into demos.',
+    expiresInMs: 604800_000,
   },
-];
+] as const;
 
 async function seed() {
-  await db.insert(pastes).values(seeds);
-  console.log(`Seeded ${seeds.length} pastes`);
+  const rows = await Promise.all(
+    seeds.map(async (sample) => {
+      const encrypted = await encryptPasteContent({
+        content: sample.content,
+        mode: sample.mode,
+      });
+
+      return {
+        id: sample.id,
+        ciphertext: encrypted.ciphertext,
+        burnToken: 'burnToken' in sample ? sample.burnToken : null,
+        burnKey: 'burnKey' in sample ? sample.burnKey : null,
+        expiresAt: new Date(Date.now() + sample.expiresInMs),
+        key: encrypted.key,
+      };
+    }),
+  );
+
+  await db.insert(pastes).values(rows.map(({ key: _key, ...row }) => row));
+  console.warn(`Seeded ${seeds.length} pastes`);
+
+  for (const row of rows) {
+    const burnKey = row.burnKey ? `.${row.burnKey}` : '';
+    console.warn(`/p/${row.id}#${row.key}${burnKey}`);
+  }
+
   await client.end();
 }
 
