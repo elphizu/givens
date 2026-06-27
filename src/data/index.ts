@@ -1,29 +1,23 @@
+import type { ComponentType, SVGProps } from 'react';
+
 import { GithubIcon, TwitterIcon } from '@/components/icons/social';
 
-import type {
-  ExpirationItem,
-  FaqItem,
-  FeatureItem,
-  ModeItem,
-  NavItem,
-  SocialLinkItem,
-  StepItem,
-} from '@/types';
+import type { ModeType, ExpirationValue } from '@/types';
 
-export const modes: ModeItem[] = [
+export const modes = [
   {
-    name: 'classical',
-    crypto: 'X25519 key exchange + XChaCha20-Poly1305',
-    desc: 'Fast, proven, and widely adopted. Suitable for everyday use against conventional threats.',
+    name: 'open',
+    crypto: 'X25519 + HKDF-SHA-256 + XChaCha20-Poly1305',
+    desc: 'Shorter links for everyday private notes, handoffs, and one-time instructions.',
   },
   {
-    name: 'quantum',
-    crypto: 'ML-KEM-1024 + X25519 + XChaCha20-Poly1305',
-    desc: 'Adds a post-quantum layer using ML-KEM-1024. Double encryption hedges against future quantum attacks.',
+    name: 'sealed',
+    crypto: 'ML-KEM-1024 + X25519 + HKDF-SHA-256 + XChaCha20-Poly1305',
+    desc: 'Hybrid post-quantum envelope encryption for longer-lived recovery material.',
   },
-];
+] satisfies Array<{ name: ModeType; crypto: string; desc: string }>;
 
-export const features: FeatureItem[] = [
+export const features = [
   {
     title: 'Client-side encryption',
     desc: 'Content is encrypted in your browser before it ever touches the server. The server stores only ciphertext.',
@@ -34,7 +28,7 @@ export const features: FeatureItem[] = [
   },
   {
     title: 'Two security modes',
-    desc: 'Classical mode uses X25519 + XChaCha20-Poly1305. Quantum-resistant mode adds ML-KEM-1024 for double encryption.',
+    desc: 'Open mode keeps share links compact. Sealed mode adds ML-KEM-1024, which makes stronger but much longer links.',
   },
   {
     title: 'Auto-expiration & burn-after-read',
@@ -50,36 +44,36 @@ export const features: FeatureItem[] = [
   },
 ];
 
-export const navItems: NavItem[] = [
+export const navItems = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/faq' },
 ];
 
-export const socialLinks: SocialLinkItem[] = [
+export const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/elphizu/nobins', icon: GithubIcon },
   { label: 'Twitter', href: 'https://twitter.com/elphizu', icon: TwitterIcon },
-];
+] satisfies Array<{ label: string; href: string; icon: ComponentType<SVGProps<SVGSVGElement>> }>;
 
-export const expirations: ExpirationItem[] = [
+export const expirations = [
   { label: '5m', value: 300 },
   { label: '1h', value: 3600 },
   { label: '1d', value: 86400 },
   { label: '7d', value: 604800 },
   { label: '30d', value: 2592000 },
   { label: 'never', value: 0 },
-];
+] satisfies Array<{ label: string; value: ExpirationValue }>;
 
-export const steps: StepItem[] = [
+export const steps = [
   {
     step: 1,
     title: 'You write or paste content',
-    desc: 'Text is entered in the browser. Nothing has been sent yet.',
+    desc: 'Paste an incident note, onboarding handoff, recovery note, or any other text-only secret.',
   },
   {
     step: 2,
     title: 'Browser encrypts client-side',
-    desc: 'A symmetric key is generated locally. Content is encrypted with XChaCha20-Poly1305 before upload.',
+    desc: 'The browser creates fresh key material and encrypts the note with XChaCha20-Poly1305 before upload.',
   },
   {
     step: 3,
@@ -93,7 +87,7 @@ export const steps: StepItem[] = [
   },
 ];
 
-export const faqs: FaqItem[] = [
+export const faqs = [
   {
     question: 'Can the server read my pastes?',
     answer:
@@ -105,9 +99,9 @@ export const faqs: FaqItem[] = [
       'The part after # in a URL is called the fragment. Browsers never send it to the server. This means the decryption key in the link stays between you and whoever you share it with.',
   },
   {
-    question: 'What is the difference between classical and quantum-resistant mode?',
+    question: 'What is the difference between open and sealed mode?',
     answer:
-      'Classical uses X25519 + XChaCha20-Poly1305. Quantum-resistant adds ML-KEM-1024, a post-quantum algorithm, to hedge against future quantum computers that could break classical key exchange.',
+      'Open mode uses X25519 + HKDF-SHA-256 and creates shorter share links. Sealed mode combines ML-KEM-1024 with X25519, so the URL fragment is much larger and may be copy-only instead of QR-friendly.',
   },
   {
     question: 'What is burn-after-read?',
