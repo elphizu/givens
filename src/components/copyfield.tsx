@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import type { ElementType } from 'react';
 
 import { Check, Copy } from 'lucide-react';
 
-import { type CopyFieldProps } from '@/types';
+interface CopyFieldProps {
+  label: string;
+  value: string;
+  icon?: ElementType;
+}
 
 export function CopyField({ label, value, icon: Icon }: CopyFieldProps) {
   const [copied, setCopied] = useState(false);
